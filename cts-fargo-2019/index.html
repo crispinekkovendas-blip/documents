@@ -42,7 +42,7 @@
   /* ---------- Header ---------- */
   .header {
     position: relative;
-    height: 66mm;
+    height: 58mm;
     flex: none;
   }
   .header-bg { position: absolute; inset: 0; width: 100%; height: 100%; }
@@ -64,16 +64,16 @@
     position: relative;
     flex: 1;
     overflow: hidden;
-    padding: 0 18mm 6mm 22mm;
+    padding: 0 18mm 4mm 22mm;
   }
   .content > *:not(.wm) { position: relative; z-index: 1; }
   .wm { position: absolute; z-index: 0; pointer-events: none; opacity: .13; }
   .wm-drum   { width: 34mm; left: 92mm; top: 22mm; }
-  .wm-lhd    { width: 128mm; left: 46mm; top: 92mm; }
-  .wm-drill  { width: 62mm; left: 82mm; top: 146mm; }
+  .wm-lhd    { width: 128mm; left: 46mm; top: 84mm; }
+  .wm-drill  { width: 58mm; left: 84mm; top: 134mm; }
 
   h1 {
-    margin: 0 0 6mm;
+    margin: 0 0 4mm;
     text-align: center;
     font-family: "Times New Roman", Times, serif;
     font-size: 17px;
@@ -86,11 +86,11 @@
   .period { margin-left: 8mm; font-weight: bold; }
   .period .semester { text-align: right; margin-top: 2mm; }
 
-  .duration { margin: 4mm 40mm 0 auto; width: 60mm; border-collapse: collapse; font-weight: bold; }
+  .duration { margin: 2mm 40mm 0 auto; width: 60mm; border-collapse: collapse; font-weight: bold; }
   .duration td { padding: .5mm 0; }
   .duration td:last-child { text-align: right; }
 
-  .section-title { font-weight: bold; margin: 6mm 0 2mm; }
+  .section-title { font-weight: bold; margin: 4mm 0 1.5mm; }
 
   .amounts { width: 100%; border-collapse: collapse; }
   .amounts td { padding: .8mm 0; vertical-align: bottom; }
@@ -105,24 +105,24 @@
     padding: 1mm 0;
   }
 
-  .calc { margin-top: 8mm; }
+  .calc { margin-top: 5mm; }
   .calc h2 { font-size: 13px; margin: 0 0 4mm; }
-  .calc-row { display: flex; justify-content: space-between; padding: 2.5mm 30mm 2.5mm 2mm; }
+  .calc-row { display: flex; justify-content: space-between; padding: 1.5mm 30mm 1.5mm 2mm; }
   .deposit {
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
-    margin-top: 6mm;
+    margin-top: 3mm;
     padding-right: 30mm;
     font-weight: bold;
   }
-  .deposit .amount { min-width: 40mm; text-align: right; border-top: 1.5px solid var(--ink); padding-top: 5mm; }
+  .deposit .amount { min-width: 40mm; text-align: right; border-top: 1.5px solid var(--ink); padding-top: 3mm; }
 
   .signatures {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 14mm;
-    margin-top: 26mm;
+    margin-top: 12mm;
     text-align: center;
     font-size: 11px;
   }
@@ -149,7 +149,7 @@
 
   @media print {
     body { background: none; }
-    .page { margin: 0; box-shadow: none; }
+    .page { margin: 0; box-shadow: none; height: 297mm; }
     * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   }
   /* Narrow screens: scale the A4 sheet instead of reflowing it */
