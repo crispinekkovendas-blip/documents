@@ -7,15 +7,15 @@
 <style>
   :root {
     --gold: #f2b233;
-    --gold-light: #fbd77e;
+    --gold-light: #fcd986;
     --ink: #1d1d1b;
-    --muted: #4a4a48;
+    --orange: #e8771e;
     --paper: #ffffff;
     --desk: #e9e6df;
+    --wm: #c9951c;          /* watermark drawings */
   }
 
   @page { size: A4; margin: 0; }
-
   * { box-sizing: border-box; }
 
   body {
@@ -39,112 +39,65 @@
     flex-direction: column;
   }
 
-  /* ---------- Header band ---------- */
+  /* ---------- Header ---------- */
   .header {
     position: relative;
-    height: 62mm;
-    background: linear-gradient(180deg, var(--gold) 0%, var(--gold-light) 100%);
+    height: 66mm;
+    flex: none;
   }
-  /* White sweep that cuts across the band */
-  .header::after {
-    content: "";
+  .header-bg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .logo {
     position: absolute;
-    left: -10%;
-    right: -10%;
-    bottom: -38mm;
-    height: 70mm;
-    background: var(--paper);
-    border-radius: 50% 50% 0 0 / 40% 40% 0 0;
-    transform: rotate(-3deg);
-  }
-  .brand {
-    position: absolute;
-    z-index: 1;
-    left: 16mm;
-    top: 9mm;
-  }
-  .brand svg { display: block; width: 72mm; height: auto; }
-  .brand .name {
-    margin: -2mm 0 0 22mm;
-    font-family: "Arial Black", Arial, sans-serif;
-    font-weight: 900;
-    font-size: 40px;
-    letter-spacing: 1px;
-    line-height: 1;
-  }
-  .brand .sub {
-    margin-top: 1mm;
-    font-family: "Arial Black", Arial, sans-serif;
-    font-weight: 900;
-    font-size: 17px;
-    letter-spacing: .5px;
+    left: 14mm;
+    top: 8mm;
+    width: 114mm;
   }
   .swoosh {
     position: absolute;
-    z-index: 1;
-    right: 22mm;
-    top: 18mm;
-    width: 46mm;
+    right: 24mm;
+    top: 20mm;
+    width: 52mm;
   }
 
   /* ---------- Body ---------- */
   .content {
     position: relative;
     flex: 1;
-    padding: 0 18mm 10mm 22mm;
+    overflow: hidden;
+    padding: 0 18mm 6mm 22mm;
   }
-  .watermark {
-    position: absolute;
-    left: 50%;
-    top: 40mm;
-    width: 120mm;
-    transform: translateX(-30%);
-    opacity: .07;
-    pointer-events: none;
-  }
+  .content > *:not(.wm) { position: relative; z-index: 1; }
+  .wm { position: absolute; z-index: 0; pointer-events: none; opacity: .13; }
+  .wm-drum   { width: 34mm; left: 92mm; top: 22mm; }
+  .wm-lhd    { width: 128mm; left: 46mm; top: 92mm; }
+  .wm-drill  { width: 62mm; left: 82mm; top: 146mm; }
 
   h1 {
     margin: 0 0 6mm;
     text-align: center;
     font-family: "Times New Roman", Times, serif;
     font-size: 17px;
-    font-weight: bold;
     letter-spacing: .5px;
   }
   .intro { text-align: justify; margin: 0 0 4mm; }
   .worker { font-weight: bold; margin: 0 0 5mm; }
   .account { font-weight: bold; letter-spacing: .5px; }
 
-  .section-title { font-weight: bold; margin: 6mm 0 2mm; }
+  .period { margin-left: 8mm; font-weight: bold; }
+  .period .semester { text-align: right; margin-top: 2mm; }
 
-  .period {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 2mm 8mm;
-    margin-left: 8mm;
-  }
-  .period .label { font-weight: bold; }
-  .period .semester { font-weight: bold; text-align: right; }
-
-  .duration {
-    width: 60mm;
-    margin: 4mm 0 0 auto;
-    margin-right: 40mm;
-    border-collapse: collapse;
-  }
-  .duration td { padding: .5mm 0; font-weight: bold; }
+  .duration { margin: 4mm 40mm 0 auto; width: 60mm; border-collapse: collapse; font-weight: bold; }
+  .duration td { padding: .5mm 0; }
   .duration td:last-child { text-align: right; }
 
-  table.amounts {
-    width: 100%;
-    border-collapse: collapse;
-    margin-left: 0;
-  }
-  table.amounts td { padding: .8mm 0; vertical-align: bottom; }
-  table.amounts td.concept { padding-left: 4mm; }
-  table.amounts td.value { width: 40mm; text-align: right; padding-right: 30mm; white-space: nowrap; }
-  table.amounts tr.total td { padding-top: 3mm; font-weight: bold; }
-  table.amounts tr.total td.value span {
+  .section-title { font-weight: bold; margin: 6mm 0 2mm; }
+
+  .amounts { width: 100%; border-collapse: collapse; }
+  .amounts td { padding: .8mm 0; vertical-align: bottom; }
+  .amounts .concept { padding-left: 4mm; }
+  .amounts .value { width: 40mm; text-align: right; padding-right: 30mm; white-space: nowrap; }
+  .amounts .total td { padding-top: 3mm; font-weight: bold; }
+  .amounts .total .value span {
     display: inline-block;
     min-width: 34mm;
     border-top: 1.5px solid var(--ink);
@@ -153,12 +106,8 @@
   }
 
   .calc { margin-top: 8mm; }
-  .calc h2 { font-size: 13px; font-weight: bold; margin: 0 0 4mm; }
-  .calc-row {
-    display: flex;
-    justify-content: space-between;
-    padding: 2.5mm 30mm 2.5mm 2mm;
-  }
+  .calc h2 { font-size: 13px; margin: 0 0 4mm; }
+  .calc-row { display: flex; justify-content: space-between; padding: 2.5mm 30mm 2.5mm 2mm; }
   .deposit {
     display: flex;
     justify-content: space-between;
@@ -167,14 +116,8 @@
     padding-right: 30mm;
     font-weight: bold;
   }
-  .deposit .amount {
-    min-width: 40mm;
-    text-align: right;
-    border-top: 1.5px solid var(--ink);
-    padding-top: 5mm;
-  }
+  .deposit .amount { min-width: 40mm; text-align: right; border-top: 1.5px solid var(--ink); padding-top: 5mm; }
 
-  /* ---------- Signatures ---------- */
   .signatures {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -183,15 +126,12 @@
     text-align: center;
     font-size: 11px;
   }
-  .sig-line {
-    border-top: 1.5px solid var(--ink);
-    padding-top: 1.5mm;
-    line-height: 1.5;
-  }
+  .sig-line { border-top: 1.5px solid var(--ink); padding-top: 1.5mm; line-height: 1.5; }
   .sig-line strong { font-size: 11.5px; }
 
   /* ---------- Footer ---------- */
   .footer {
+    flex: none;
     margin: 0 10mm 8mm;
     padding: 3mm 8mm;
     background: linear-gradient(180deg, var(--gold-light), var(--gold));
@@ -204,7 +144,7 @@
   }
   .footer .addr { font-size: 15px; line-height: 1.3; }
   .footer .divider { width: 1.5px; height: 10mm; background: #3b2a07; }
-  .footer .phones { justify-self: end; font-weight: bold; font-size: 13px; line-height: 1.5; }
+  .footer .phones { justify-self: end; font-weight: bold; line-height: 1.5; }
   .footer .phones span { display: inline-block; width: 13mm; }
 
   @media print {
@@ -212,8 +152,7 @@
     .page { margin: 0; box-shadow: none; }
     * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   }
-
-  /* On narrow screens, scale the A4 sheet down instead of reflowing it */
+  /* Narrow screens: scale the A4 sheet instead of reflowing it */
   @media screen and (max-width: 840px) {
     body { overflow-x: hidden; }
     .page { zoom: calc(100vw / 840px); margin: 12px auto; }
@@ -221,60 +160,229 @@
 </style>
 </head>
 <body>
+
+<!-- ================= SVG drawing library ================= -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <!-- Wheel used by the logo machines: black tyre, stencil ring, hub -->
+    <symbol id="logo-wheel" viewBox="-12 -12 24 24">
+      <circle r="11.5" fill="#1d1d1b"/>
+      <circle r="6" fill="none" stroke="#f2b233" stroke-width="2.2"/>
+      <circle r="2" fill="#f2b233"/>
+    </symbol>
+
+    <!-- Logo 1: front-end wheel loader, bucket to the left -->
+    <symbol id="logo-loader" viewBox="0 0 110 84">
+      <g fill="#1d1d1b">
+        <!-- bucket -->
+        <path d="M2 74 L6 52 Q16 46 26 50 L24 74 Z"/>
+        <!-- lift arm + tilt cylinder -->
+        <path d="M20 54 L50 34 L56 40 L26 62 Z"/>
+        <path d="M28 46 L46 28 L50 31 L32 50 Z"/>
+        <!-- front frame -->
+        <path d="M34 46 H62 V66 H34 Z"/>
+        <!-- cab with ROPS -->
+        <path d="M46 46 L48 10 H78 L82 46 Z"/>
+        <!-- rear engine body + counterweight -->
+        <path d="M62 30 H96 L104 40 V64 H62 Z"/>
+        <rect x="88" y="20" width="4" height="12"/>
+      </g>
+      <g fill="#f2b233">
+        <!-- cab windows & stencil gaps -->
+        <path d="M52 15 H62 V30 H51 Z"/>
+        <path d="M66 15 H75 L77 30 H66 Z"/>
+        <rect x="66" y="36" width="34" height="2.4"/>
+        <rect x="66" y="44" width="34" height="2.4"/>
+        <rect x="8" y="58" width="14" height="2.2"/>
+      </g>
+      <use href="#logo-wheel" x="28" y="60" width="26" height="26"/>
+      <use href="#logo-wheel" x="74" y="60" width="26" height="26"/>
+    </symbol>
+
+    <!-- Logo 2: articulated dump truck, six wheels, cab to the left -->
+    <symbol id="logo-truck" viewBox="0 0 190 84">
+      <g fill="#1d1d1b">
+        <!-- tractor unit: grille, hood, cab -->
+        <path d="M4 66 V38 L10 34 H22 L26 14 H52 L58 34 H62 V66 Z"/>
+        <!-- articulation -->
+        <rect x="60" y="46" width="10" height="16"/>
+        <!-- dump body, high at the front over the cab -->
+        <path d="M54 10 L66 6 L176 26 L186 44 L180 60 H68 V30 Z"/>
+        <!-- chassis -->
+        <rect x="4" y="60" width="180" height="6"/>
+      </g>
+      <g fill="#f2b233">
+        <path d="M30 18 H40 V32 H28 Z"/>
+        <path d="M43 18 H50 L54 32 H43 Z"/>
+        <rect x="8" y="42" width="2" height="16"/>
+        <rect x="13" y="42" width="2" height="16"/>
+        <!-- dump body ribs -->
+        <path d="M80 18 l3 0 l0 34 l-3 0 Z"/>
+        <path d="M108 23 l3 0 l0 29 l-3 0 Z"/>
+        <path d="M136 28 l3 0 l0 24 l-3 0 Z"/>
+        <path d="M70 52 H182 V54.4 H70 Z"/>
+      </g>
+      <use href="#logo-wheel" x="10" y="58" width="24" height="24"/>
+      <use href="#logo-wheel" x="36" y="58" width="24" height="24"/>
+      <use href="#logo-wheel" x="86" y="58" width="24" height="24"/>
+      <use href="#logo-wheel" x="112" y="58" width="24" height="24"/>
+      <use href="#logo-wheel" x="140" y="58" width="24" height="24"/>
+      <use href="#logo-wheel" x="164" y="58" width="24" height="24"/>
+    </symbol>
+
+    <!-- Logo 3: crawler bulldozer, blade to the right -->
+    <symbol id="logo-dozer" viewBox="0 0 110 80">
+      <g fill="#1d1d1b">
+        <!-- track -->
+        <rect x="4" y="56" width="80" height="22" rx="11"/>
+        <!-- body + hood -->
+        <path d="M10 56 V36 H58 L84 40 V56 Z"/>
+        <!-- cab -->
+        <path d="M14 36 L18 8 H46 L52 36 Z"/>
+        <!-- exhaust stack -->
+        <rect x="66" y="26" width="4" height="12"/>
+        <!-- push arm -->
+        <path d="M70 58 L96 50 L98 56 L74 64 Z"/>
+        <!-- blade -->
+        <path d="M88 20 Q101 46 92 78 H110 Q114 46 102 20 Z"/>
+        <!-- ripper -->
+        <path d="M4 44 L0 66 L4 66 L8 48 Z"/>
+      </g>
+      <g fill="#f2b233">
+        <path d="M22 13 H30 V30 H20 Z"/>
+        <path d="M34 13 H43 L46 30 H34 Z"/>
+        <rect x="56" y="44" width="24" height="2.2"/>
+        <circle cx="16" cy="67" r="4"/>
+        <circle cx="32" cy="69" r="3"/>
+        <circle cx="46" cy="69" r="3"/>
+        <circle cx="60" cy="69" r="3"/>
+        <circle cx="73" cy="67" r="4"/>
+      </g>
+    </symbol>
+
+    <!-- Watermark: underground LHD scooptram, bucket to the right -->
+    <symbol id="wm-lhd" viewBox="0 0 420 210">
+      <g fill="var(--wm)">
+        <!-- rear engine frame -->
+        <path d="M8 82 Q8 70 20 70 H150 V142 H8 Z"/>
+        <!-- side operator compartment + canopy -->
+        <path d="M150 40 H214 V48 H160 V96 H150 Z"/>
+        <rect x="204" y="48" width="6" height="48"/>
+        <path d="M150 96 H214 V142 H150 Z"/>
+        <!-- articulation joint -->
+        <rect x="214" y="92" width="22" height="40" rx="4"/>
+        <!-- front frame -->
+        <path d="M236 82 H320 V140 H236 Z"/>
+        <!-- boom & tilt cylinder -->
+        <path d="M262 84 L344 116 L338 128 L256 98 Z"/>
+        <path d="M290 74 L350 98 L346 106 L286 84 Z"/>
+        <!-- bucket -->
+        <path d="M334 96 Q370 86 404 94 L414 150 Q380 166 340 160 Z"/>
+      </g>
+      <g fill="#fff">
+        <!-- engine grille slats -->
+        <rect x="30" y="86" width="90" height="5"/>
+        <rect x="30" y="100" width="90" height="5"/>
+        <rect x="30" y="114" width="90" height="5"/>
+        <rect x="170" y="58" width="28" height="30" rx="3"/>
+      </g>
+      <g>
+        <circle cx="86" cy="158" r="46" fill="var(--wm)"/>
+        <circle cx="86" cy="158" r="22" fill="#fff"/>
+        <circle cx="86" cy="158" r="12" fill="var(--wm)"/>
+        <circle cx="282" cy="158" r="46" fill="var(--wm)"/>
+        <circle cx="282" cy="158" r="22" fill="#fff"/>
+        <circle cx="282" cy="158" r="12" fill="var(--wm)"/>
+      </g>
+    </symbol>
+
+    <!-- Watermark: crawler drill rig with tall feed mast -->
+    <symbol id="wm-drill" viewBox="0 0 280 440">
+      <g fill="var(--wm)">
+        <!-- feed mast -->
+        <rect x="150" y="8" width="16" height="312"/>
+        <rect x="140" y="20" width="36" height="10"/>
+        <rect x="140" y="140" width="36" height="8"/>
+        <rect x="140" y="250" width="36" height="8"/>
+        <!-- rotary head -->
+        <rect x="136" y="70" width="44" height="34" rx="4"/>
+        <!-- drill rod -->
+        <rect x="155" y="320" width="6" height="70"/>
+        <!-- boom from carrier to mast -->
+        <path d="M110 316 L146 228 L160 236 L126 322 Z"/>
+        <!-- carrier deck -->
+        <path d="M30 316 H230 V364 H30 Z"/>
+        <!-- cab -->
+        <path d="M40 316 V258 H100 L108 316 Z"/>
+        <!-- crawler track -->
+        <rect x="14" y="364" width="232" height="58" rx="29"/>
+      </g>
+      <!-- hydraulic hoses from mast head down to carrier -->
+      <path d="M150 90 C 70 90, 40 170, 70 258" fill="none" stroke="var(--wm)" stroke-width="7"/>
+      <path d="M150 110 C 90 120, 66 190, 86 258" fill="none" stroke="var(--wm)" stroke-width="5"/>
+      <g fill="#fff">
+        <rect x="50" y="268" width="40" height="34" rx="3"/>
+        <rect x="120" y="330" width="96" height="6"/>
+        <rect x="120" y="344" width="96" height="6"/>
+        <circle cx="44" cy="393" r="16"/><circle cx="216" cy="393" r="16"/>
+        <circle cx="88" cy="398" r="8"/><circle cx="130" cy="398" r="8"/><circle cx="172" cy="398" r="8"/>
+      </g>
+    </symbol>
+
+    <!-- Watermark: oil drum with hose, as printed near the intro paragraph -->
+    <symbol id="wm-drum" viewBox="0 0 140 150">
+      <path d="M6 70 C 6 20, 60 8, 84 30" fill="none" stroke="var(--wm)" stroke-width="6" stroke-linecap="round"/>
+      <g fill="var(--wm)">
+        <rect x="78" y="26" width="14" height="10" rx="2"/>
+        <path d="M40 46 H130 L126 142 Q85 150 44 142 Z"/>
+      </g>
+      <g fill="#fff">
+        <rect x="44" y="70" width="84" height="4"/>
+        <rect x="44" y="112" width="82" height="4"/>
+      </g>
+    </symbol>
+  </defs>
+</svg>
+
 <div class="page">
 
   <header class="header">
-    <div class="brand">
-      <!-- Logo: recreated as SVG silhouettes of the heavy machinery shown on the original letterhead -->
-      <svg viewBox="0 0 300 64" aria-hidden="true">
-        <g fill="#1d1d1b">
-          <!-- Dump truck -->
-          <path d="M4 22 h40 l6 10 v14 H4 z"/>
-          <path d="M50 30 h14 l8 10 v6 H50 z"/>
-          <rect x="0" y="46" width="76" height="4"/>
-          <circle cx="16" cy="54" r="7"/><circle cx="62" cy="54" r="7"/>
-          <!-- Excavator -->
-          <path d="M84 30 h28 v16 H84 z"/>
-          <path d="M112 34 l26 -20 l6 4 l-24 22 z"/>
-          <path d="M138 14 l14 16 l-8 4 l-10 -12 z"/>
-          <rect x="80" y="46" width="40" height="10" rx="5"/>
-          <!-- Haul truck -->
-          <path d="M150 18 h52 l8 14 v14 h-60 z"/>
-          <path d="M210 32 h16 l6 8 v6 h-22 z"/>
-          <circle cx="166" cy="54" r="7"/><circle cx="186" cy="54" r="7"/><circle cx="222" cy="54" r="7"/>
-          <!-- Wheel loader -->
-          <path d="M236 30 h22 l4 -10 h10 v26 h-36 z"/>
-          <path d="M272 30 l12 -6 l14 20 h-20 z"/>
-          <circle cx="246" cy="54" r="7"/><circle cx="270" cy="54" r="7"/>
-        </g>
-        <g fill="#f2b233">
-          <circle cx="16" cy="54" r="2.5"/><circle cx="62" cy="54" r="2.5"/>
-          <circle cx="166" cy="54" r="2.5"/><circle cx="186" cy="54" r="2.5"/><circle cx="222" cy="54" r="2.5"/>
-          <circle cx="246" cy="54" r="2.5"/><circle cx="270" cy="54" r="2.5"/>
-        </g>
-      </svg>
-      <div class="name">FARGO</div>
-      <div class="sub">MINERÍA Y CONSTRUCCIÓN S.A.C.</div>
-    </div>
-    <svg class="swoosh" viewBox="0 0 120 70" aria-hidden="true">
-      <path d="M4 56 C 20 30, 40 18, 62 12 C 50 26, 52 44, 70 64 C 78 40, 92 22, 116 14"
-            fill="none" stroke="#e8771e" stroke-width="2.2" stroke-linecap="round"/>
+    <!-- Yellow band with the white sweep cutting across it -->
+    <svg class="header-bg" viewBox="0 0 210 66" preserveAspectRatio="none" aria-hidden="true">
+      <defs>
+        <linearGradient id="band" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#f2b233"/>
+          <stop offset="1" stop-color="#fcd986"/>
+        </linearGradient>
+      </defs>
+      <path d="M0 0 H210 V30 C 160 18, 70 26, 0 50 Z" fill="url(#band)"/>
+      <path d="M0 50 C 70 26, 160 18, 210 30 V33 C 160 22, 70 30, 0 54 Z" fill="#f7c55a" opacity=".5"/>
+    </svg>
+
+    <!-- FARGO logo: loader, articulated truck and dozer stepping down to the right -->
+    <svg class="logo" viewBox="0 0 400 174" role="img" aria-label="Fargo Minería y Construcción S.A.C.">
+      <use href="#logo-loader" x="6"   y="0"  width="104" height="80"/>
+      <use href="#logo-truck"  x="104" y="14" width="186" height="82"/>
+      <use href="#logo-dozer"  x="288" y="64" width="100" height="73"/>
+      <text x="272" y="144" text-anchor="end"
+            font-family="'Arial Black', Arial, sans-serif" font-weight="900"
+            font-size="58" letter-spacing="2" fill="#1d1d1b">FARGO</text>
+      <text x="4" y="170" textLength="390" lengthAdjust="spacingAndGlyphs"
+            font-family="'Arial Black', Arial, sans-serif" font-weight="900"
+            font-size="21" fill="#1d1d1b">MINERÍA Y CONSTRUCCIÓN S.A.C.</text>
+    </svg>
+
+    <!-- Orange brush stroke -->
+    <svg class="swoosh" viewBox="0 0 200 110" aria-hidden="true">
+      <path d="M6 14 C 30 30, 52 56, 66 74 C 70 50, 78 22, 96 10 C 120 40, 156 74, 196 100"
+            fill="none" stroke="var(--orange)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>
   </header>
 
   <main class="content">
-    <!-- Faint machinery watermark, like the drill rig printed behind the original text -->
-    <svg class="watermark" viewBox="0 0 200 260" aria-hidden="true">
-      <g fill="#b07a00">
-        <rect x="92" y="10" width="10" height="170"/>
-        <rect x="84" y="20" width="26" height="6"/>
-        <rect x="84" y="90" width="26" height="6"/>
-        <path d="M60 180 h80 v30 H60 z"/>
-        <rect x="40" y="210" width="120" height="22" rx="11"/>
-        <path d="M20 120 h60 v40 H20 z" opacity=".6"/>
-        <circle cx="40" cy="175" r="18" opacity=".6"/><circle cx="160" cy="175" r="18" opacity=".6"/>
-      </g>
-    </svg>
+    <svg class="wm wm-drum"  viewBox="0 0 140 150" aria-hidden="true"><use href="#wm-drum"/></svg>
+    <svg class="wm wm-lhd"   viewBox="0 0 420 210" aria-hidden="true"><use href="#wm-lhd"/></svg>
+    <svg class="wm wm-drill" viewBox="0 0 280 440" aria-hidden="true"><use href="#wm-drill"/></svg>
 
     <h1>COMPENSACIÓN POR TIEMPO DE SERVICIOS</h1>
 
@@ -294,9 +402,7 @@
     </p>
 
     <div class="period">
-      <div class="label">1.- Periodo a Liquidar:</div>
-      <div></div>
-      <div></div>
+      <div>1.- Periodo a Liquidar:</div>
       <div class="semester">Semestre NOVIEMBRE 2018 - ABRIL 2019</div>
     </div>
 
